@@ -4,18 +4,29 @@ import PasswordInput from "../../../components/form/PasswordInput";
 import TextInput from "../../../components/form/TextInput";
 import { IRegisterInfo, registerInfo } from "../../../models/userModel";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { authPending, resetAuth } from "../../../features/auth/authReducer";
+import Spinner from "../../../components/Spinner";
+import { validateAccountRegisterInfo } from "../../../functions/auth/services";
+import {
+  clearResponse,
+  responsePending,
+} from "../../../features/slice/responseReducer";
 
 function Register() {
   const dispatch = useAppDispatch();
   const [info, setInfo] = useState<IRegisterInfo>(registerInfo);
-  const { loading, user, error } = useAppSelector((state) => state.authReducer);
+  const { loading, error } = useAppSelector((state) => state.responseReducer);
+
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    dispatch(authPending());
-    setTimeout(() => {
-      dispatch(resetAuth());
-    }, 3000);
+    try {
+      e.preventDefault();
+      validateAccountRegisterInfo(info);
+      dispatch(responsePending());
+      setTimeout(() => {
+        dispatch(clearResponse());
+      }, 3000);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -63,7 +74,7 @@ function Register() {
                     type={"text"}
                     id={"companyName"}
                     name={"companyName"}
-                    placeholder={"Enter Compnay Name"}
+                    placeholder={"Enter Company Name"}
                     handleChange={(e) =>
                       setInfo({ ...info, company: e.target.value })
                     }
@@ -81,26 +92,23 @@ function Register() {
                 </div>
                 <div className="mb-3">
                   <div className="d-grid gap-5">
-                    <button
-                      disabled={loading}
-                      className="btn btn-primary text-center shadow"
-                      type="button"
-                      onClick={handleSubmit}
-                    >
-                      {loading && (
-                        <span
-                          className="spinner-border spinner-border-sm"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                      )}
-                      {loading ? "loading..." : "Create account"}
-                    </button>
+                    {loading ? (
+                      <Spinner />
+                    ) : (
+                      <button
+                        disabled={loading}
+                        onClick={handleSubmit}
+                        className="btn btn-primary text-center shadow"
+                        type="button"
+                      >
+                        Create account
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="mt-3 mb-4 text-center">
                   <span className="text-muted">Already registered? </span>
-                  <a href="login.html" className="mt-2">
+                  <a href="login" className="mt-2">
                     Log Into account
                   </a>
                 </div>

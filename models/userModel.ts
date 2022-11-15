@@ -11,3 +11,13 @@ export const registerInfo: IRegisterInfo = {
   password: "",
   email: "",
 };
+
+export interface ILoginInfo {
+  email: string;
+  password: string;
+}
+
+export const loginInfo: ILoginInfo = {
+  email: "",
+  password: "",
+};
