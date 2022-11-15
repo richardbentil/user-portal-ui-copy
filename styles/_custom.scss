@@ -1,0 +1,98 @@
+input:focus { outline:thin }
+
+.btn {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+}
+
+.btn-primary {
+    color: #fff !important
+}
+
+.btn-outline-grey {
+    border: 1px solid $grey !important;
+    background-color: transparent;
+}
+
+.form-control {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-radius: 8px !important;
+    border: 0 !important;
+    background-color: $grey-light !important;
+}
+
+.passwordAddon, .input-group-text{
+    background-color: $grey-light !important;
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.password-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.form-control::placeholder {
+    color: rgba(19, 18, 18, 0.6) !important
+}
+
+.form-control:focus {
+    background-color: $grey-light !important;
+    border: 1px solid $grey-light !important;
+    outline: 0px;
+}
+
+.card {
+    border-radius: 20px!important;
+}
+
+@media(min-width: 993px){
+    .account-card-right {
+        margin-right: -40px !important
+    }
+
+    .cloud-img {
+        width: 500px !important;
+    }
+}
+
+@media(max-width: 1024px){
+    .cloud-img {
+        width: 350px !important;
+    }
+}
+
+@media(max-width: 992px){
+    .account-card-right {
+        margin-bottom: -30% !important;
+        margin-right: 15px !important;
+        margin-left: 15px !important
+    }
+
+    .cloud-img {
+        padding-top: 180px !important;
+        padding-bottom: 10px !important;
+        width: 300px !important;
+        margin-top: 30px
+    }
+}
+
+
+@media(max-width: 460px){
+    .cloud-img {
+        padding-top: 100px !important;
+        width: 150px !important
+    }
+}
+
+label {
+    color: #262424 !important;
+    font-weight: 400 !important
+}
+
+.card-bg-gradient {
+    background-image: linear-gradient(to top right, rgb(202 218 198), rgb(252 251 182 / 72%))
+}
