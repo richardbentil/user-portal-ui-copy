@@ -3,13 +3,19 @@ import EmailInput from "../../../components/form/TextInput";
 import PasswordInput from "../../../components/form/PasswordInput";
 import TextInput from "../../../components/form/TextInput";
 import { IRegisterInfo, registerInfo } from "../../../models/userModel";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { authPending, resetAuth } from "../../../features/auth/authReducer";
 
 function Register() {
+  const dispatch = useAppDispatch();
   const [info, setInfo] = useState<IRegisterInfo>(registerInfo);
-
+  const { loading, user, error } = useAppSelector((state) => state.authReducer);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    alert(info.email);
+    dispatch(authPending());
+    setTimeout(() => {
+      dispatch(resetAuth());
+    }, 3000);
   };
 
   return (
@@ -76,11 +82,19 @@ function Register() {
                 <div className="mb-3">
                   <div className="d-grid gap-5">
                     <button
+                      disabled={loading}
                       className="btn btn-primary text-center shadow"
                       type="button"
                       onClick={handleSubmit}
                     >
-                      Create account
+                      {loading && (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      )}
+                      {loading ? "loading..." : "Create account"}
                     </button>
                   </div>
                 </div>
