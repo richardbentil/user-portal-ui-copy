@@ -2,7 +2,7 @@ import React from "react";
 import Script from "next/script";
 import Head from "next/head";
 
-function Layout(props: { title: any; children: any; }) {
+function Layout(props: { title?: any; children: any }) {
   return (
     <>
       <Head>

@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { ChangeEvent } from "react";
 
-function TextInput(props: any) {
+interface IProps {
+  name: string;
+  id: string;
+  type?: string;
+  placeholder: string;
+  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+function TextInput({ name, id, type, placeholder, handleChange }: IProps) {
   return (
-    <input type={props.type} className="form-control" name={props.name} id={props.id} aria-describedby="helpId" placeholder={props.placeHolder} />
-  )
+    <input
+      type={type}
+      className="form-control"
+      name={name}
+      id={id}
+      aria-describedby="helpId"
+      placeholder={placeholder}
+      onChange={handleChange}
+    />
+  );
 }
 
-export default TextInput
+export default TextInput;

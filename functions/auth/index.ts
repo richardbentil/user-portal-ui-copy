@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import controller from "../../controller";
-import userModel from "../../models/userModel";
+import UserModel from "../../models/userModel";
 
 const authThunk = createAsyncThunk("authentication/thunk", async () => {
   try {
-    return await controller<userModel>({});
+    return await controller<UserModel>({});
   } catch (error) {
     throw error;
   }
