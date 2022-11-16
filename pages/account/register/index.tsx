@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PasswordInput from "../../../components/form/PasswordInput";
 import TextInput from "../../../components/form/TextInput";
-import { registerInfo } from "../../../models/userModel";
+import { IRegisterInfo, registerInfo } from "../../../models/userModel";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Spinner from "../../../components/Spinner";
 import { emailRegex, passwordRegex } from "../../../functions/auth/services";
@@ -21,13 +21,27 @@ const FormValidationSchema = Yup.object().shape({
   company: Yup.string().required().min(4),
   password: Yup.string()
     .min(6)
-    .matches(passwordRegex, { message: "Password Invalid" })
+    .matches(passwordRegex, {
+      message:
+        "password invalid,minimum  6-characters required, at least one uppercase letter, one lowercase letter, one number and one special character:",
+    })
     .required(),
 });
 
 function Register() {
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.responseReducer);
+
+  function handleSubmit(data: IRegisterInfo, actions: any) {
+    try {
+      dispatch(responsePending());
+      setTimeout(() => {
+        dispatch(clearResponse());
+      }, 3000);
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="container-fluid">
@@ -54,18 +68,10 @@ function Register() {
               <Formik
                 initialValues={registerInfo}
                 validationSchema={FormValidationSchema}
-                onSubmit={(data) => {
-                  try {
-                    dispatch(responsePending());
-                    setTimeout(() => {
-                      dispatch(clearResponse());
-                    }, 3000);
-                  } catch (error: any) {
-                    console.log(error);
-                  }
-                }}
+                onSubmit={handleSubmit}
+                validateOnChange
               >
-                {({ errors, touched }) => (
+                {({ errors, touched, handleSubmit }) => (
                   <Form>
                     <div className="form-group mb-3 has-validation">
                       <label htmlFor="email" className="mb-2">
@@ -168,3 +174,59 @@ function Register() {
 }
 
 export default Register;
+
+{
+  /* <Formik
+  onSubmit={handleSubmit}
+  initialValues={{
+    email: "",
+    password: "",
+  }}
+  validationSchema={basicSchema}
+>
+  {({ isSubmitting }) => (
+    <Form>
+      <div className="form-group mb-3 pb-2">
+        <TextInput
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter an email"
+          aria-describedby={"email"}
+        />
+      </div>
+      <div className="form-group mb-5">
+        <TextInput
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter a password"
+          aria-describedby={"password"}
+        />
+      </div>
+      <div className="d-flex justify-content-end mb-4">
+        <p>
+          <Link href="/reset-password-email">
+            <a className="ms-2">Forgot password? Reset</a>
+          </Link>
+        </p>
+      </div>
+      <div className="form-group d-grid mb-4">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting || loading}
+        >
+          Signup
+        </button>
+      </div>
+    </Form>
+  )}
+</Formik>;
+const handleSubmit = async (values, actions) => {
+  await signup(values);
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  actions.resetForm();
+}; */
+}
