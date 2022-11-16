@@ -1,38 +1,24 @@
-import React, { useState } from "react";
 import PasswordInput from "../../../components/form/PasswordInput";
 import TextInput from "../../../components/form/TextInput";
-import { IRegisterInfo, registerInfo } from "../../../models/userModel";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Spinner from "../../../components/Spinner";
-import { emailRegex, passwordRegex } from "../../../functions/auth/services";
 import {
   clearResponse,
   responsePending,
 } from "../../../features/slice/responseReducer";
 import { Formik, Form } from "formik";
-
-import * as Yup from "yup";
-
-const FormValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email")
-    .required()
-    .matches(emailRegex, { message: "Invalid Email Address" }),
-  company: Yup.string().required().min(4),
-  password: Yup.string()
-    .min(6)
-    .matches(passwordRegex, {
-      message:
-        "password invalid,minimum  6-characters required, at least one uppercase letter, one lowercase letter, one number and one special character:",
-    })
-    .required(),
-});
+import { signUpSchema } from "../../../form-schemas";
+import Link from "next/link";
+import LogoBanner from "../../../components/LogoBanner";
+import AccountBanner from "../../../components/AccountBanner";
+import Layout from "../../../components/layout/AccountLayout";
 
 function Register() {
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.responseReducer);
+  const { loading, error } = useAppSelector((state) => state.responseReducer);
 
-  function handleSubmit(data: IRegisterInfo, actions: any) {
+  const handleSubmit = async (values: any, actions: { resetForm: () => void; }) => {
+    console.log(values)
     try {
       dispatch(responsePending());
       setTimeout(() => {
@@ -41,22 +27,22 @@ function Register() {
     } catch (error: any) {
       console.log(error);
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    actions.resetForm()
   }
 
   return (
+  <Layout title={"Register"}>
     <div className="container-fluid">
       <div className="row vh-100">
         <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-md-center p-0 pe-lg-0">
           <div className="card mt-5 mb-lg-5 ms-lg-5 account-card-right">
             <div className="card-body p-lg-4">
               <div className="mt-4">
-                <img
-                  src="/img/logo.png"
-                  className="img-responsive"
-                  alt="logo"
-                />
+                <LogoBanner />
               </div>
-              <div className="col-lg-9 col-xl-8">
+              <div className="col-lg-9 col-xl-8 mb-4">
                 <h4 className="card-title mt-4 fw-bold mb-0">
                   Create an account
                 </h4>
@@ -65,168 +51,63 @@ function Register() {
                   license
                 </p>
               </div>
+                {error && <p className="text-danger">Error: {error}</p>}
               <Formik
-                initialValues={registerInfo}
-                validationSchema={FormValidationSchema}
+                initialValues={{email: "", company: "", password: ""}}
+                validationSchema={signUpSchema}
                 onSubmit={handleSubmit}
-                validateOnChange
               >
-                {({ errors, touched, handleSubmit }) => (
+                {({ isSubmitting }) => (
                   <Form>
                     <div className="form-group mb-3 has-validation">
                       <label htmlFor="email" className="mb-2">
                         Email Address
                       </label>
-                      <TextInput
-                        type={"email"}
-                        id={"email"}
-                        required
-                        valid={!Boolean(touched.email && errors.email)}
-                        name={"email"}
-                        placeholder={"Enter Email"}
-                      />
-                      {touched.email && errors.email && (
-                        <div className="invalid-feedback">{errors.email}</div>
-                      )}
+                      <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
                     </div>
                     <div className="form-group mb-3 has-validation">
-                      <label htmlFor="name" className="mb-2">
+                      <label htmlFor="company" className="mb-2">
                         Company Name
                       </label>
-                      <TextInput
-                        type={"text"}
-                        required
-                        valid={!Boolean(touched.company && errors.company)}
-                        id={"companyName"}
-                        name={"company"}
-                        placeholder={"Enter Company Name"}
-                      />
-                      {touched.company && errors.company && (
-                        <div className="invalid-feedback">{errors.company}</div>
-                      )}
+                      <TextInput type="text" id="company" name="company" placeholder="Enter company name" />
                     </div>
-                    {errors.company}
-
                     <div className="form-group has-validation mb-5">
                       <label htmlFor="password" className="mb-2">
                         Password
                       </label>
-                      <PasswordInput
-                        name="password"
-                        valid={!Boolean(touched.password && errors.password)}
-                      />
-
-                      {touched.password && errors.password && (
-                        <div className="invalid-feedback">
-                          {errors.password}
-                        </div>
-                      )}
+                        <PasswordInput id="password" name="password" placeholder="Enter a password" />
+                        <p>
+                          <small className="form-text text-muted">
+                          Should contain, 1 uppercase, lowercase, number and a special character
+                          </small>
+                        </p>
                     </div>
-                    <div className="mb-3">
-                      <div className="d-grid gap-5">
-                        {loading ? (
-                          <Spinner />
-                        ) : (
+                      <div className="d-grid gap-5 mb-3">
                           <button
-                            disabled={loading}
                             className="btn btn-primary text-center shadow"
                             type="submit"
+                            disabled={isSubmitting || loading}
                           >
-                            Create account
+                            {loading ?  <Spinner /> : "Create account"}
                           </button>
-                        )}
                       </div>
-                    </div>
-                    <div className="mt-3 mb-4 text-center">
-                      <span className="text-muted">Already registered? </span>
-                      <a href="login" className="mt-2">
-                        Log Into account
-                      </a>
-                    </div>
                   </Form>
                 )}
               </Formik>
+              <div className="mt-3 mb-4 text-center">
+                  <span className="text-muted">Already registered?</span>
+                    <Link href="/account/login" className="mt-2">
+                      Log Into account
+                    </Link>
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-lg-6 bg-light d-flex justify-content-center align-items-center p-0 card-bg-gradient py-md-5 py-xl-0">
-          <div className="vh-100 p-lg-5 gradient-inner">
-            <div className="d-flex justify-content-center justify-content-lg-end justify-content-xl-center">
-              <img
-                src="/img/cloud.svg"
-                width="350"
-                alt="logo"
-                className="my-4 img-responsive cloud-img"
-              />
-            </div>
-            <div className="text-center px-3 px-md-4 pb-4">
-              <h4>Powerful and Simple onboarding for Ghana’s Exporters</h4>
-              <h6 className="fw-normal mt-3">
-                Register and apply to get your licensed ceritifcate from the
-                comfort of your home, created just for you
-              </h6>
-            </div>
-          </div>
-        </div>
+       <AccountBanner />
       </div>
     </div>
+  </Layout>
   );
 }
 
 export default Register;
-
-{
-  /* <Formik
-  onSubmit={handleSubmit}
-  initialValues={{
-    email: "",
-    password: "",
-  }}
-  validationSchema={basicSchema}
->
-  {({ isSubmitting }) => (
-    <Form>
-      <div className="form-group mb-3 pb-2">
-        <TextInput
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Enter an email"
-          aria-describedby={"email"}
-        />
-      </div>
-      <div className="form-group mb-5">
-        <TextInput
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Enter a password"
-          aria-describedby={"password"}
-        />
-      </div>
-      <div className="d-flex justify-content-end mb-4">
-        <p>
-          <Link href="/reset-password-email">
-            <a className="ms-2">Forgot password? Reset</a>
-          </Link>
-        </p>
-      </div>
-      <div className="form-group d-grid mb-4">
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={isSubmitting || loading}
-        >
-          Signup
-        </button>
-      </div>
-    </Form>
-  )}
-</Formik>;
-const handleSubmit = async (values, actions) => {
-  await signup(values);
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-}; */
-}

@@ -1,4 +1,3 @@
-import React, { FormEvent, useState } from "react";
 import TextInput from "../../../components/form/TextInput";
 import Layout from "../../../components/layout/AccountLayout";
 import LogoBanner from "../../../components/LogoBanner";
@@ -9,15 +8,18 @@ import {
 } from "../../../features/slice/responseReducer";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useRouter } from "next/router";
+import { Form, Formik } from "formik";
+import { forgotPasswordSchema } from "../../../form-schemas";
 ////
 function ForgotPassword() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [info, setInfo] = useState<{ email: string }>({ email: "" });
-  const { loading } = useAppSelector((state) => state.responseReducer);
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log(info);
+  const { loading, error } = useAppSelector((state) => state.responseReducer);
+
+  const handleSubmit = async (values: any, actions: { resetForm: () => void; }) => {
+    console.log(values)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    actions.resetForm()
   };
 
   function handleResetPassword() {
@@ -36,7 +38,7 @@ function ForgotPassword() {
             <div className="card">
               <div className="card-body p-md-4 p-xl-5">
                 <LogoBanner />
-                <div className="col-md-9">
+                <div className="col-md-9 mb-4 mb-lg-5">
                   <h4 className="card-title mt-4 fw-bold mb-0">
                     Oops you forgot your password!
                   </h4>
@@ -45,36 +47,32 @@ function ForgotPassword() {
                     registration
                   </p>
                 </div>
-                <form className="my-4" onSubmit={handleSubmit}>
-                  <div className="form-group mb-5">
-                    <label htmlFor="email" className="mb-2">
-                      Email Address
-                    </label>
-                    <TextInput
-                      type={"email"}
-                      id={"email"}
-                      name={"email"}
-                      handleChange={(e) =>
-                        setInfo({ ...info, email: e.target.value })
-                      }
-                      placeholder={"Enter Email"}
-                    />
-                  </div>
-                  <div className="mb-3 d-grid">
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <button
-                        disabled={!Boolean(info.email.length)}
-                        onClick={handleResetPassword}
-                        className="btn btn-primary text-center shadow"
-                        type="submit"
-                      >
-                        Send verification
-                      </button>
-                    )}
-                  </div>
-                </form>
+                  {error && <p className="text-danger">Error: {error}</p>}
+              <Formik
+                initialValues={{email: ""}}
+                validationSchema={forgotPasswordSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    <div className="form-group mb-4 has-validation">
+                      <label htmlFor="email" className="mb-2">
+                        Email Address
+                      </label>
+                      <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
+                    </div>
+                      <div className="d-grid gap-5 mb-3">
+                          <button
+                            className="btn btn-primary text-center shadow"
+                            type="submit"
+                            disabled={isSubmitting || loading}
+                          >
+                            {loading ?  <Spinner /> : "Send verification"}
+                          </button>
+                      </div>
+                  </Form>
+                )}
+              </Formik>
               </div>
             </div>
           </div>

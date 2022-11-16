@@ -1,5 +1,5 @@
+import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { FormEvent, useState } from "react";
 import PasswordInput from "../../../components/form/PasswordInput";
 import Layout from "../../../components/layout/AccountLayout";
 import LogoBanner from "../../../components/LogoBanner";
@@ -8,6 +8,7 @@ import {
   clearResponse,
   responsePending,
 } from "../../../features/slice/responseReducer";
+import { resetPasswordSchema } from "../../../form-schemas";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 function ResetPassword() {
@@ -15,19 +16,17 @@ function ResetPassword() {
   const { user } = useAppSelector((state) => state.authReducer);
   const { loading } = useAppSelector((state) => state.responseReducer);
   const dispatch = useAppDispatch();
-  //
-  const [info, setInfo] = useState<{
-    password: string;
-    confirmPassword: string;
-  }>({ password: "", confirmPassword: "" });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: any, actions: { resetForm: () => void; }) => {
+    console.log(values)
     dispatch(responsePending());
     setTimeout(() => {
       dispatch(clearResponse());
-      router.push("/account/login");
+      router.push("/account/verify-code");
     }, 3000);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    actions.resetForm()
   };
 
   return (
@@ -38,7 +37,7 @@ function ResetPassword() {
             <div className="card">
               <div className="card-body p-md-4 p-xl-5">
                 <LogoBanner />
-                <div className="col-md-9">
+                <div className="col-md-9 mb-4 mb-lg-5">
                   <h4 className="card-title mt-4 fw-bold mb-0">
                     Reset Your Password
                   </h4>
@@ -47,42 +46,37 @@ function ResetPassword() {
                     character
                   </p>
                 </div>
-                <form className="my-4" onSubmit={handleSubmit}>
-                  <div className="form-group mb-4">
-                    <label htmlFor="email" className="mb-2">
-                      New password
-                    </label>
-                    <PasswordInput
-                      handleChange={(e) =>
-                        setInfo({ ...info, password: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="form-group mb-5">
-                    <label htmlFor="email" className="mb-2">
-                      Confirm password
-                    </label>
-                    <PasswordInput
-                      placeholder="Confirm Password"
-                      handleChange={(e) =>
-                        setInfo({ ...info, confirmPassword: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="mb-3 d-grid">
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <button
-                        className="btn btn-primary text-center shadow"
-                        type="submit"
-                        onClick={handleSubmit}
-                      >
-                        Reset Password
-                      </button>
-                    )}
-                  </div>
-                </form>
+                <Formik
+                  initialValues={{ password: "", confirmPassword:  ""}}
+                validationSchema={resetPasswordSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                      <div className="form-group has-validation mb-3">
+                            <label htmlFor="password" className="mb-2">
+                              Password
+                            </label>
+                            <PasswordInput id="password" name="password" placeholder="Enter a password" />
+                      </div>
+                      <div className="form-group has-validation mb-4">
+                            <label htmlFor="confirmPassword" className="mb-2">
+                              Password
+                            </label>
+                            <PasswordInput id="confirmPassword" name="confirmPassword" placeholder="Repeat password" />
+                      </div>
+                      <div className="d-grid gap-5 mb-3">
+                          <button
+                            className="btn btn-primary text-center shadow"
+                            type="submit"
+                            disabled={isSubmitting || loading}
+                          >
+                          {loading ?  <Spinner /> : "Reset password"}
+                          </button>
+                      </div>
+                  </Form>
+                )}
+              </Formik>
               </div>
             </div>
           </div>

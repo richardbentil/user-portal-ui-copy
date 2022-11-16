@@ -29,8 +29,8 @@ export default function <T>({
           authorization: `Bearer ${token}`,
         },
       })
-        .then((response) => resolve(response.data as T))
-        .catch((error) =>
+        .then((response: { data: T; }) => resolve(response.data as T))
+        .catch((error: { response: { data: any; }; message: any; }) =>
           reject(error?.response?.data || error?.message || error)
         );
     } catch (error) {

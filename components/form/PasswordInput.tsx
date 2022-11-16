@@ -1,48 +1,35 @@
-import React, { ChangeEvent, useState } from "react";
+import { useField } from "formik";
+import { useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
-interface IProps {
-  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  valid?: boolean;
-  name?: string;
-}
-function PasswordInput({
-  handleChange,
-  placeholder,
-  valid,
-  name,
-}: IProps): any {
+function PasswordInput({...props}) {
   const [isPassword, setIsPassword] = useState<boolean>(true);
+
+  const [field, meta] = useField(props)
+  const { touched, error } = meta
+  const err = error && touched
+
   return (
-    <div className="input-group mb-3">
+    <>
+    <div className="input-group">
       <input
         type={isPassword ? "password" : "text"}
-        className={`form-control password-input ${!valid ? "is-invalid" : ""}`}
-        placeholder={placeholder ? placeholder : "Password"}
-        aria-label="password"
-        id="password"
-        name={name ? name : "password"}
-        aria-describedby="basic-addon1"
-        onChange={handleChange}
+        className={`form-control password-input ${err ? "is-invalid" : ""}`}
+        {...field} {...props}
+          aria-describedby={props.name}
+          autoComplete="off"
       />
       <span className="input-group-text border-0" id="passwordAddon">
-        {isPassword ? (
-          <MdVisibilityOff
-            onClick={() =>
-              isPassword ? setIsPassword(false) : setIsPassword(true)
-            }
-          />
-        ) : (
-          <MdVisibility
-            onClick={() =>
-              isPassword ? setIsPassword(false) : setIsPassword(true)
-            }
-          />
-        )}
+        {isPassword ? <MdVisibilityOff onClick={() => setIsPassword(false)} className="text-muted" />
+         : 
+          <MdVisibility onClick={() => setIsPassword(true) } />
+        }
       </span>
-    </div>
+    </div> 
+     {err && <small className='form-text text-danger'>{error}</small>}
+    </>
   );
 }
 
 export default PasswordInput;
+

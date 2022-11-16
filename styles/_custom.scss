@@ -49,22 +49,32 @@ input:focus { outline:thin }
     border-radius: 20px!important;
 }
 
-@media(min-width: 993px){
+.form-text {
+    font-size: 13px !important;
+}
+
+.cloud-img {
+    width: 550px !important;
+}
+
+@media(min-width: 992px){
     .account-card-right {
         margin-right: -40px !important
     }
+}
 
+@media(min-width: 992px) and (max-width: 1295px){
     .cloud-img {
-        width: 500px !important;
+        width: 380px !important;
     }
 }
 
-@media(max-width: 1024px){
+/* @media(max-width: 1024px){
     .cloud-img {
         width: 350px !important;
     }
 }
-
+ */
 @media(max-width: 992px){
     .account-card-right {
         margin-bottom: -30% !important;
@@ -86,6 +96,16 @@ input:focus { outline:thin }
         padding-top: 100px !important;
         width: 150px !important
     }
+    
+   .gov-login-text {
+        width: 100px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .form-text {
+        font-size: 10px !important;
+    }
 }
 
 label {
@@ -95,8 +115,4 @@ label {
 
 .card-bg-gradient {
     background-image: linear-gradient(to top right, rgb(202 218 198), rgb(252 251 182 / 72%))
-}
-
-.truncate-text {
-    width: 100px !important
 }
