@@ -1,8 +1,7 @@
-import React, { FormEvent, useState } from "react";
-import EmailInput from "../../../components/form/TextInput";
+import React, { useState } from "react";
 import PasswordInput from "../../../components/form/PasswordInput";
 import TextInput from "../../../components/form/TextInput";
-import { IRegisterInfo, registerInfo } from "../../../models/userModel";
+import { registerInfo } from "../../../models/userModel";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Spinner from "../../../components/Spinner";
 import { validateAccountRegisterInfo } from "../../../functions/auth/services";
@@ -10,24 +9,32 @@ import {
   clearResponse,
   responsePending,
 } from "../../../features/slice/responseReducer";
+import { useFormik } from "formik";
 
 function Register() {
   const dispatch = useAppDispatch();
-  const [info, setInfo] = useState<IRegisterInfo>(registerInfo);
-  const { loading, error } = useAppSelector((state) => state.responseReducer);
+  const { loading } = useAppSelector((state) => state.responseReducer);
+  const [formError, setFormError] = useState<{ message: string; name: string }>(
+    { message: "", name: "" }
+  );
 
-  const handleSubmit = (e: FormEvent) => {
-    try {
-      e.preventDefault();
-      validateAccountRegisterInfo(info);
-      dispatch(responsePending());
-      setTimeout(() => {
-        dispatch(clearResponse());
-      }, 3000);
-    } catch (error) {
-      alert(error);
-    }
-  };
+  const formik = useFormik({
+    initialValues: registerInfo,
+    onSubmit: async (data) => {
+      try {
+        validateAccountRegisterInfo(data);
+        setFormError({ message: "", name: "" });
+        dispatch(responsePending());
+        setTimeout(() => {
+          dispatch(clearResponse());
+        }, 3000);
+      } catch (error: any) {
+        if (Object.keys(error).includes("name")) {
+          setFormError(error);
+        }
+      }
+    },
+  });
 
   return (
     <div className="container-fluid">
@@ -51,44 +58,59 @@ function Register() {
                   license
                 </p>
               </div>
-              <form className="my-4" onSubmit={handleSubmit}>
-                <div className="form-group mb-3">
+              <form
+                className="my-4 needs-validation"
+                noValidate
+                onSubmit={formik.handleSubmit}
+              >
+                <div className="form-group mb-3 has-validation">
                   <label htmlFor="email" className="mb-2">
                     Email Address
                   </label>
                   <TextInput
                     type={"email"}
                     id={"email"}
+                    required
+                    valid={formError.name === "email" ? false : true}
                     name={"email"}
                     placeholder={"Enter Email"}
-                    handleChange={(e) =>
-                      setInfo({ ...info, email: e.target.value })
-                    }
+                    handleChange={formik.handleChange}
                   />
+                  {formError.name === "email" && (
+                    <div className="invalid-feedback">{formError.message}</div>
+                  )}
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group mb-3 has-validation">
                   <label htmlFor="name" className="mb-2">
                     Company Name
                   </label>
                   <TextInput
                     type={"text"}
+                    required
+                    valid={formError.name === "company" ? false : true}
                     id={"companyName"}
-                    name={"companyName"}
+                    name={"company"}
                     placeholder={"Enter Company Name"}
-                    handleChange={(e) =>
-                      setInfo({ ...info, company: e.target.value })
-                    }
+                    handleChange={formik.handleChange}
                   />
+                  {formError.name === "company" && (
+                    <div className="invalid-feedback">{formError.message}</div>
+                  )}
                 </div>
-                <div className="form-group mb-4">
-                  <label htmlFor="email" className="mb-2">
+
+                <div className="form-group has-validation mb-5">
+                  <label htmlFor="password" className="mb-2">
                     Password
                   </label>
                   <PasswordInput
-                    handleChange={(e) =>
-                      setInfo({ ...info, password: e.target.value })
-                    }
+                    name="password"
+                    valid={formError.name === "password" ? false : true}
+                    handleChange={formik.handleChange}
                   />
+
+                  {formError.name === "password" && (
+                    <div className="invalid-feedback">{formError.message}</div>
+                  )}
                 </div>
                 <div className="mb-3">
                   <div className="d-grid gap-5">
@@ -97,9 +119,9 @@ function Register() {
                     ) : (
                       <button
                         disabled={loading}
-                        onClick={handleSubmit}
+                        onClick={() => formik.handleSubmit()}
                         className="btn btn-primary text-center shadow"
-                        type="button"
+                        type="submit"
                       >
                         Create account
                       </button>

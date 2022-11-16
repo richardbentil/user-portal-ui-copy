@@ -5,19 +5,32 @@ interface IProps {
   id: string;
   type?: string;
   placeholder: string;
+  required?: boolean;
+  valid?: boolean;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-function TextInput({ name, id, type, placeholder, handleChange }: IProps) {
+function TextInput({
+  name,
+  id,
+  type,
+  placeholder,
+  handleChange,
+  required,
+  valid,
+}: IProps) {
   return (
-    <input
-      type={type}
-      className="form-control"
-      name={name}
-      id={id}
-      aria-describedby="helpId"
-      placeholder={placeholder}
-      onChange={handleChange}
-    />
+    <React.Fragment>
+      <input
+        type={type}
+        className={`form-control ${!valid ? "is-invalid" : ""}`}
+        required={required ? required : false}
+        name={name}
+        id={id}
+        aria-describedby="helpId"
+        placeholder={placeholder}
+        onChange={handleChange}
+      />
+    </React.Fragment>
   );
 }
 
