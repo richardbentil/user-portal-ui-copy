@@ -4,37 +4,30 @@ import TextInput from "../../../components/form/TextInput";
 import { registerInfo } from "../../../models/userModel";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Spinner from "../../../components/Spinner";
-import { validateAccountRegisterInfo } from "../../../functions/auth/services";
+import { emailRegex, passwordRegex } from "../../../functions/auth/services";
 import {
   clearResponse,
   responsePending,
 } from "../../../features/slice/responseReducer";
-import { useFormik } from "formik";
+import { Formik, Form } from "formik";
+
+import * as Yup from "yup";
+
+const FormValidationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .required()
+    .matches(emailRegex, { message: "Invalid Email Address" }),
+  company: Yup.string().required().min(4),
+  password: Yup.string()
+    .min(6)
+    .matches(passwordRegex, { message: "Password Invalid" })
+    .required(),
+});
 
 function Register() {
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.responseReducer);
-  const [formError, setFormError] = useState<{ message: string; name: string }>(
-    { message: "", name: "" }
-  );
-
-  const formik = useFormik({
-    initialValues: registerInfo,
-    onSubmit: async (data) => {
-      try {
-        validateAccountRegisterInfo(data);
-        setFormError({ message: "", name: "" });
-        dispatch(responsePending());
-        setTimeout(() => {
-          dispatch(clearResponse());
-        }, 3000);
-      } catch (error: any) {
-        if (Object.keys(error).includes("name")) {
-          setFormError(error);
-        }
-      }
-    },
-  });
 
   return (
     <div className="container-fluid">
@@ -58,83 +51,95 @@ function Register() {
                   license
                 </p>
               </div>
-              <form
-                className="my-4 needs-validation"
-                noValidate
-                onSubmit={formik.handleSubmit}
+              <Formik
+                initialValues={registerInfo}
+                validationSchema={FormValidationSchema}
+                onSubmit={(data) => {
+                  try {
+                    dispatch(responsePending());
+                    setTimeout(() => {
+                      dispatch(clearResponse());
+                    }, 3000);
+                  } catch (error: any) {
+                    console.log(error);
+                  }
+                }}
               >
-                <div className="form-group mb-3 has-validation">
-                  <label htmlFor="email" className="mb-2">
-                    Email Address
-                  </label>
-                  <TextInput
-                    type={"email"}
-                    id={"email"}
-                    required
-                    valid={formError.name === "email" ? false : true}
-                    name={"email"}
-                    placeholder={"Enter Email"}
-                    handleChange={formik.handleChange}
-                  />
-                  {formError.name === "email" && (
-                    <div className="invalid-feedback">{formError.message}</div>
-                  )}
-                </div>
-                <div className="form-group mb-3 has-validation">
-                  <label htmlFor="name" className="mb-2">
-                    Company Name
-                  </label>
-                  <TextInput
-                    type={"text"}
-                    required
-                    valid={formError.name === "company" ? false : true}
-                    id={"companyName"}
-                    name={"company"}
-                    placeholder={"Enter Company Name"}
-                    handleChange={formik.handleChange}
-                  />
-                  {formError.name === "company" && (
-                    <div className="invalid-feedback">{formError.message}</div>
-                  )}
-                </div>
+                {({ errors, touched }) => (
+                  <Form>
+                    <div className="form-group mb-3 has-validation">
+                      <label htmlFor="email" className="mb-2">
+                        Email Address
+                      </label>
+                      <TextInput
+                        type={"email"}
+                        id={"email"}
+                        required
+                        valid={!Boolean(touched.email && errors.email)}
+                        name={"email"}
+                        placeholder={"Enter Email"}
+                      />
+                      {touched.email && errors.email && (
+                        <div className="invalid-feedback">{errors.email}</div>
+                      )}
+                    </div>
+                    <div className="form-group mb-3 has-validation">
+                      <label htmlFor="name" className="mb-2">
+                        Company Name
+                      </label>
+                      <TextInput
+                        type={"text"}
+                        required
+                        valid={!Boolean(touched.company && errors.company)}
+                        id={"companyName"}
+                        name={"company"}
+                        placeholder={"Enter Company Name"}
+                      />
+                      {touched.company && errors.company && (
+                        <div className="invalid-feedback">{errors.company}</div>
+                      )}
+                    </div>
+                    {errors.company}
 
-                <div className="form-group has-validation mb-5">
-                  <label htmlFor="password" className="mb-2">
-                    Password
-                  </label>
-                  <PasswordInput
-                    name="password"
-                    valid={formError.name === "password" ? false : true}
-                    handleChange={formik.handleChange}
-                  />
+                    <div className="form-group has-validation mb-5">
+                      <label htmlFor="password" className="mb-2">
+                        Password
+                      </label>
+                      <PasswordInput
+                        name="password"
+                        valid={!Boolean(touched.password && errors.password)}
+                      />
 
-                  {formError.name === "password" && (
-                    <div className="invalid-feedback">{formError.message}</div>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <div className="d-grid gap-5">
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <button
-                        disabled={loading}
-                        onClick={() => formik.handleSubmit()}
-                        className="btn btn-primary text-center shadow"
-                        type="submit"
-                      >
-                        Create account
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className="mt-3 mb-4 text-center">
-                  <span className="text-muted">Already registered? </span>
-                  <a href="login" className="mt-2">
-                    Log Into account
-                  </a>
-                </div>
-              </form>
+                      {touched.password && errors.password && (
+                        <div className="invalid-feedback">
+                          {errors.password}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <div className="d-grid gap-5">
+                        {loading ? (
+                          <Spinner />
+                        ) : (
+                          <button
+                            disabled={loading}
+                            className="btn btn-primary text-center shadow"
+                            type="submit"
+                          >
+                            Create account
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-3 mb-4 text-center">
+                      <span className="text-muted">Already registered? </span>
+                      <a href="login" className="mt-2">
+                        Log Into account
+                      </a>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
