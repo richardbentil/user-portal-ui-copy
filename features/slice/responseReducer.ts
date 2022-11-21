@@ -26,7 +26,6 @@ const responseReducer = createSlice({
       state.message = null;
     },
   },
-  extraReducers: (builder) => {},
 });
 
 export default responseReducer.reducer;
