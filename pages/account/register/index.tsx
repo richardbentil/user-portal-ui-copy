@@ -95,9 +95,9 @@ function Register() {
                 )}
               </Formik>
               <div className="mt-3 mb-4 text-center">
-                  <span className="text-muted">Already registered?</span>
+                  <span className="text-muted">Already registered? </span>
                     <Link href="/account/login" className="mt-2">
-                      Log Into account
+                       Log Into account
                     </Link>
               </div>
             </div>

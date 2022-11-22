@@ -7,8 +7,8 @@ function AccountBanner() {
                     <div className="d-flex justify-content-center justify-content-lg-end justify-content-xl-center">
                         <img src="/img/cloud.svg" width="350" alt="logo" className="my-4 img-responsive cloud-img" />
                     </div>
-                    <div className="text-center px-3 px-md-4 pb-4">
-                        <h4>Powerful and Simple onboarding for Ghana’s Exporters</h4>
+                    <div className="text-center px-3 px-md-4 px-lg-5 pb-4">
+                        <h3>Powerful and Simple onboarding for Ghana’s Exporters</h3>
                         <h6 className="fw-normal mt-3">Register and apply to get your licensed ceritifcate from the comfort of your home, created just for you</h6>
                     </div>
                 </div>

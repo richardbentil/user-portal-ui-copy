@@ -1,5 +1,3 @@
-input:focus { outline:thin }
-
 .btn {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
@@ -24,7 +22,7 @@ input:focus { outline:thin }
     background-color: $grey-light !important;
 }
 
-.passwordAddon, .input-group-text{
+.passwordAddon, .input-group-text {
     background-color: $grey-light !important;
     border-top-right-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
@@ -39,14 +37,14 @@ input:focus { outline:thin }
     color: rgba(19, 18, 18, 0.6) !important
 }
 
-.form-control:focus {
+.form-control:focus, input:focus {
     background-color: $grey-light !important;
-    border: 1px solid $grey-light !important;
-    outline: 0px;
+    border: none !important;
+    outline: none !important;
 }
 
 .card {
-    border-radius: 20px!important;
+    border-radius: 20px !important;
 }
 
 .form-text {
@@ -57,25 +55,19 @@ input:focus { outline:thin }
     width: 550px !important;
 }
 
-@media(min-width: 992px){
+@media(min-width: 992px) {
     .account-card-right {
         margin-right: -40px !important
     }
 }
 
-@media(min-width: 992px) and (max-width: 1295px){
+@media(min-width: 992px) and (max-width: 1295px) {
     .cloud-img {
         width: 380px !important;
     }
 }
 
-/* @media(max-width: 1024px){
-    .cloud-img {
-        width: 350px !important;
-    }
-}
- */
-@media(max-width: 992px){
+@media(max-width: 992px) {
     .account-card-right {
         margin-bottom: -30% !important;
         margin-right: 15px !important;
@@ -91,18 +83,19 @@ input:focus { outline:thin }
 }
 
 
-@media(max-width: 460px){
+@media(max-width: 460px) {
     .cloud-img {
         padding-top: 100px !important;
         width: 150px !important
     }
     
-   .gov-login-text {
+    .gov-login-text {
         width: 100px !important;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
     .form-text {
         font-size: 10px !important;
     }
@@ -116,3 +109,12 @@ label {
 .card-bg-gradient {
     background-image: linear-gradient(to top right, rgb(202 218 198), rgb(252 251 182 / 72%))
 }
+
+.h-2px {
+    height: 2px;
+}
+
+.w-44 {
+    width: 44px;
+}
+

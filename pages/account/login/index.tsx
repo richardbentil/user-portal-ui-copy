@@ -79,7 +79,7 @@ function Login() {
                             </label>
                             <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
                             </div>
-                            <div className="form-group has-validation mb-5">
+                          <div className="form-group has-validation">
                             <label htmlFor="password" className="mb-2">
                               Password
                             </label>
@@ -87,16 +87,21 @@ function Login() {
                             <p className="text-end mt-2">
                               <Link
                                 href="/account/forgot-password"
-                                className="text-decoration-none"
+                                className="text-decoration-none text-danger"
                               >
                                 Forgot password?
                               </Link>
                             </p>
-                          </div>
+                        </div>
+                        <div className="relative d-flex align-items-center justify-content-center mb-4">
+                          <hr className="h-2px w-100" />
+                          <h6 className="shrink-0 text-center text-uppercase text-muted px-3 text-nowrap">or</h6>
+                          <hr className="h-2px w-100" />
+                        </div>
                               <div className="d-grid gap-4 mb-3">
                                 <button
                                   onClick={handleAouth}
-                                  className="btn btn-outline-grey text-center d-flex align-items-center"
+                                  className="btn btn-outline-grey text-center d-flex align-items-center px-lg-4"
                                   type="button"
                                 >
                                   <img
@@ -120,7 +125,7 @@ function Login() {
                               </Form>
                       )}
                     </Formik>
-                    <div className="mt-3 mb-4 text-center">
+                    <div className="mt-4 mb-4 mb-lg-5 text-center">
                       <span className="text-muted">Not registered yet? </span>
                       <Link href="/account/register" className="mt-2">
                         Create An Account
