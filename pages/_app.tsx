@@ -6,7 +6,7 @@ import ErrorBoundary from "../components/ErrorBoundary";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store} children={undefined}>
+    <Provider store={store}>
       <ErrorBoundary>
         <Component {...pageProps} />
       </ErrorBoundary>
