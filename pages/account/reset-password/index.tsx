@@ -54,13 +54,13 @@ function ResetPassword() {
                 {({ isSubmitting }) => (
                   <Form>
                       <div className="form-group has-validation mb-3">
-                            <label htmlFor="password" className="mb-2">
+                            <label htmlFor="password" className="mb-1">
                               New Password
                             </label>
                             <PasswordInput id="password" name="password" placeholder="Enter new password" />
                       </div>
                       <div className="form-group has-validation mb-5">
-                            <label htmlFor="confirmPassword" className="mb-2">
+                            <label htmlFor="confirmPassword" className="mb-1">
                               Confirm Password
                             </label>
                             <PasswordInput id="confirmPassword" name="confirmPassword" placeholder="Enter password one more time" />

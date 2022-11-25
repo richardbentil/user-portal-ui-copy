@@ -60,29 +60,27 @@ function Register() {
                 {({ isSubmitting }) => (
                   <Form>
                     <div className="form-group mb-3 mb-xl-2 mb-xxl-3 has-validation">
-                      <label htmlFor="email" className="mb-2">
+                      <label htmlFor="email" className="mb-1">
                         Email Address
                       </label>
                       <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
                     </div>
                     <div className="form-group mb-3 mb-xl-2 mb-xxl-3 has-validation">
-                      <label htmlFor="company" className="mb-2">
+                      <label htmlFor="company" className="mb-1">
                         Company Name
                       </label>
                       <TextInput type="text" id="company" name="company" placeholder="Enter company name" />
                     </div>
                     <div className="form-group has-validation mb-3 mb-xl-2 mb-xxl-3">
-                      <label htmlFor="password" className="mb-2">
+                      <label htmlFor="password" className="mb-1">
                         Password
                       </label>
                         <PasswordInput id="password" name="password" placeholder="Enter a password" />
-                        <p>
-                          <small className="form-text text-muted">
+                        <p className="form-text text-muted small mt-2">
                           Should contain, 1 uppercase, lowercase, number and a special character
-                          </small>
                         </p>
                     </div>
-                      <div className="d-grid gap-5 mb-3">
+                      <div className="d-grid gap-5 my-3 my-xl-4 my-xxl-3">
                           <button
                             className="btn btn-primary text-center shadow"
                             type="submit"
@@ -94,7 +92,7 @@ function Register() {
                   </Form>
                 )}
               </Formik>
-              <p className="mt-3 mb-4 text-center">
+              <p className="mt-3 mb-4 text-center my-xl-4">
                   <span className="text-muted">Already registered? </span>
                     <Link href="/account/login" className="mt-2">
                        Log Into account

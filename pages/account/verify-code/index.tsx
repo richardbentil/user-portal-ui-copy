@@ -43,13 +43,13 @@ function VerifyCode() {
               >
                 {({ isSubmitting }) => (
                   <Form>
-                    <div className="form-group mb-5 has-validation">
-                      <label htmlFor="verificationCode" className="mb-2">
+                    <div className="form-group has-validation">
+                      <label htmlFor="verificationCode" className="mb-1">
                         Verification code
                       </label>
                       <TextInput type="text" id="verificationCode" name="verificationCode" placeholder="Enter verification code" />
                     </div>
-                      <div className="d-grid gap-5 mb-3">
+                      <div className="d-grid gap-5 my-5">
                           <button
                             className="btn btn-primary text-center shadow"
                             type="submit"

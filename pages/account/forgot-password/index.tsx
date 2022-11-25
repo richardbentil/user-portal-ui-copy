@@ -55,13 +55,13 @@ function ForgotPassword() {
               >
                 {({ isSubmitting }) => (
                   <Form>
-                    <div className="form-group mb-4 has-validation">
-                      <label htmlFor="email" className="mb-2">
+                    <div className="form-group has-validation">
+                      <label htmlFor="email" className="mb-1">
                         Email Address
                       </label>
                       <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
                     </div>
-                      <div className="d-grid gap-5 mb-3">
+                      <div className="d-grid gap-5 my-5">
                           <button
                             className="btn btn-primary text-center shadow"
                             type="submit"
