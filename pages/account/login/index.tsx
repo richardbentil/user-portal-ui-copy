@@ -83,7 +83,7 @@ function Login() {
                                 <label htmlFor="password" className="mb-1">
                                   Password
                                 </label>
-                                    <PasswordInput id="password" name="password" placeholder="Enter a password" />
+                                <PasswordInput id="password" name="password" placeholder="Enter a password" />
                                 <p className="text-end mt-2 mb-1">
                                   <Link
                                     href="/account/forgot-password"
