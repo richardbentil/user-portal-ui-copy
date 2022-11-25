@@ -35,9 +35,9 @@ function ResetPassword() {
         <div className="row">
           <div className="p-3">
             <div className="card">
-              <div className="card-body p-md-4 p-xl-5">
+              <div className="card-body p-md-4 p-lg-4">
                 <LogoBanner />
-                <div className="col-md-9 mb-4 mb-lg-5">
+                <div className="col-md-9 mb-4 mb-xl-3 mb-xxl-4 mb-lg-5">
                   <h4 className="card-title mt-4 fw-bold mb-0">
                     Reset Your Password
                   </h4>
@@ -55,15 +55,15 @@ function ResetPassword() {
                   <Form>
                       <div className="form-group has-validation mb-3">
                             <label htmlFor="password" className="mb-2">
-                              Password
+                              New Password
                             </label>
-                            <PasswordInput id="password" name="password" placeholder="Enter a password" />
+                            <PasswordInput id="password" name="password" placeholder="Enter new password" />
                       </div>
-                      <div className="form-group has-validation mb-4">
+                      <div className="form-group has-validation mb-5">
                             <label htmlFor="confirmPassword" className="mb-2">
-                              Password
+                              Confirm Password
                             </label>
-                            <PasswordInput id="confirmPassword" name="confirmPassword" placeholder="Repeat password" />
+                            <PasswordInput id="confirmPassword" name="confirmPassword" placeholder="Enter password one more time" />
                       </div>
                       <div className="d-grid gap-5 mb-3">
                           <button

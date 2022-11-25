@@ -36,9 +36,9 @@ function ForgotPassword() {
         <div className="row">
           <div className="p-3">
             <div className="card">
-              <div className="card-body p-md-4 p-xl-5">
+              <div className="card-body p-md-4 p-lg-4">
                 <LogoBanner />
-                <div className="col-md-9 mb-4 mb-lg-5">
+                <div className="col-md-9 mb-4 mb-xl-3 mb-xxl-4 mb-lg-5">
                   <h4 className="card-title mt-4 fw-bold mb-0">
                     Oops you forgot your password!
                   </h4>

@@ -24,9 +24,9 @@ function VerifyCode() {
         <div className="row">
           <div className="p-3">
             <div className="card">
-              <div className="card-body p-md-4 p-xl-5">
+              <div className="card-body p-md-4 p-xl-4">
                 <LogoBanner />
-                <div className="col-md-9 mb-4 mb-lg-5">
+                <div className="col-md-9 mb-4 mb-xl-2 mb-xxl-4">
                   <h4 className="card-title mt-4 fw-bold mb-0">
                     Verification Sent
                   </h4>
@@ -43,7 +43,7 @@ function VerifyCode() {
               >
                 {({ isSubmitting }) => (
                   <Form>
-                    <div className="form-group mb-4 has-validation">
+                    <div className="form-group mb-5 has-validation">
                       <label htmlFor="verificationCode" className="mb-2">
                         Verification code
                       </label>
@@ -58,11 +58,11 @@ function VerifyCode() {
                             {loading ?  <Spinner /> : "Send verification"}
                           </button>
                       </div>
-                    <div className="mt-3 mb-5 text-center">
-                    <a href="#" className="mt-2">
-                      Send Code Again
-                    </a>
-                  </div>
+                    <p className="mt-3 mb-3 text-center">
+                      <a href="#" className="mt-2">
+                        Send Code Again
+                      </a>
+                    </p>
                   </Form>
                 )}
               </Formik>

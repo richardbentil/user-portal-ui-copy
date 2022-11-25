@@ -75,13 +75,10 @@
     font-size: 1.2rem !important;
     }
     .logo {
-        width: 100px !important;
+        width: 120px !important;
     }
     .form-control::placeholder, .form-control, .form-text {
         font-size: 11px !important;
-    }
-    .h-2px {
-        height: 5px;
     }
 }
 
@@ -122,6 +119,23 @@
 
     .form-text {
         font-size: 10px !important;
+    }
+
+    .btn {
+        font-size: 12px !important;
+    }
+
+    p, label {
+        font-size: 12px !important;
+    }
+    h4, .h4 {
+    font-size: 1.2rem !important;
+    }
+    .logo {
+        width: 120px !important;
+    }
+    .form-control::placeholder, .form-control, .form-text {
+        font-size: 12px !important;
     }
 }
 
