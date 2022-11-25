@@ -39,10 +39,10 @@ function Register() {
         <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-md-center p-0 pe-lg-0">
           <div className="card mt-5 mb-lg-5 ms-lg-5 account-card-right">
             <div className="card-body p-lg-4">
-              <div className="mt-4">
+              <div className="mt-4 mt-xl-2 mt-xxl-4">
                 <LogoBanner />
               </div>
-              <div className="col-lg-9 col-xl-8 mb-4">
+              <div className="col-lg-9 col-xl-8 mb-4 mb-xl-2 mb-xxl-4">
                 <h4 className="card-title mt-4 fw-bold mb-0">
                   Create an account
                 </h4>
@@ -59,19 +59,19 @@ function Register() {
               >
                 {({ isSubmitting }) => (
                   <Form>
-                    <div className="form-group mb-3 has-validation">
+                    <div className="form-group mb-3 mb-xl-2 mb-xxl-3 has-validation">
                       <label htmlFor="email" className="mb-2">
                         Email Address
                       </label>
                       <TextInput type="email" id="email" name="email" placeholder="Enter an email" />
                     </div>
-                    <div className="form-group mb-3 has-validation">
+                    <div className="form-group mb-3 mb-xl-2 mb-xxl-3 has-validation">
                       <label htmlFor="company" className="mb-2">
                         Company Name
                       </label>
                       <TextInput type="text" id="company" name="company" placeholder="Enter company name" />
                     </div>
-                    <div className="form-group has-validation mb-5">
+                    <div className="form-group has-validation mb-3 mb-xl-2 mb-xxl-3">
                       <label htmlFor="password" className="mb-2">
                         Password
                       </label>
@@ -94,12 +94,12 @@ function Register() {
                   </Form>
                 )}
               </Formik>
-              <div className="mt-3 mb-4 text-center">
+              <p className="mt-3 mb-4 text-center">
                   <span className="text-muted">Already registered? </span>
                     <Link href="/account/login" className="mt-2">
                        Log Into account
                     </Link>
-              </div>
+              </p>
             </div>
           </div>
         </div>

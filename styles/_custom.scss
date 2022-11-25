@@ -52,12 +52,36 @@
 }
 
 .cloud-img {
-    width: 550px !important;
+    width: 500px !important;
 }
 
 @media(min-width: 992px) {
     .account-card-right {
         margin-right: -40px !important
+    }
+}
+
+@media(min-width: 1240px) and (max-width: 1340px){
+    .btn {
+        font-size: 11px !important;
+    }
+    .cloud-img {
+        width: 380px !important;
+    }
+    p, label {
+        font-size: 11px !important;
+    }
+    h4, .h4 {
+    font-size: 1.2rem !important;
+    }
+    .logo {
+        width: 100px !important;
+    }
+    .form-control::placeholder, .form-control, .form-text {
+        font-size: 11px !important;
+    }
+    .h-2px {
+        height: 5px;
     }
 }
 
@@ -111,7 +135,7 @@ label {
 }
 
 .h-2px {
-    height: 2px;
+   height: 15px;
 }
 
 .w-44 {
